@@ -135,3 +135,14 @@ hide_posts:
   filter: hidden
   public_generators: []
   noindex: true
+
+
+
+neat:
+  enable: true
+  css:
+    enable: true
+  html:
+    enable: true
+  js:
+    enable: true
