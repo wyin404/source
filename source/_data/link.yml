@@ -1,0 +1,35 @@
+- class_name: 技术支持
+  class_desc: 学习hexo通过以下up
+  link_list:
+    - name: --Fomalhaut
+      link: https://space.bilibili.com/220757832?spm_id_from=333.337.0.0
+      avatar: 
+      descr: 博客已开源啦！ 网站：https://www.fomal.cc
+    - name: 枸杞加水
+      link: https://space.bilibili.com/358065206?spm_id_from=333.337.0.0
+      avatar: 
+      descr: 输出知识，一起进步
+
+- class_name: 网站
+  class_desc: 值得推荐的网站
+  link_list:
+    - name: Bilibili
+      link: https://www.bilibili.com/
+      avatar: //www.bilibili.com/favicon.ico
+      descr: 视频网站
+    - name: SteamGal
+      link: https://steamgalgame.com
+      avatar: 
+      descr: gal咨询站
+    - name: 量子acg
+      link: https://lzacg.top
+      avatar: 
+      descr: gal资源站
+    - name: TouchGal
+      link: https://touchgal.ink
+      avatar: https://touchgal.ink/favicon.ico
+      descr: gal资源站
+    - name: 动漫花园
+      link: https://www.dmhy.org
+      avatar: 
+      descr: 动漫磁力站（需要科学上网）
