@@ -113,9 +113,9 @@ wowjs:
   animateitem:
     - class: recent-post-item
       style: animate__fadeIn
-      duration: 2s
+      duration: 1.5s
       delay: 500ms
-      offset: 100
+      offset: 90
       iteration: 1
     - class: card-widget
       style: animate__fadeIn
@@ -135,8 +135,7 @@ hide_posts:
   filter: hidden
   public_generators: []
   noindex: true
-
-
+  kdf.iterations: 600000
 #压力！
 neat:
   enable: true

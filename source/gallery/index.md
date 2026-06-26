@@ -3,6 +3,7 @@ title: 图库
 date: 2026-6-17 09：29：00
 type: 'gallery'
 comments: false
+aside: false
 ---
 
 {% gallery %}
