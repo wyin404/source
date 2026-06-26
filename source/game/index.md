@@ -1,0 +1,630 @@
+---
+title: 芙芙快跑！
+date: 2026-06-27 05:21:45
+comments: false
+aside: false
+---
+<p align="center">⚡穷玩车，富玩表，顶富就玩芙芙快跑⚡</p>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>芙芙快跑！</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+  /* 或者使用更具体的容器 */
+  #game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+  }
+    .game-wrapper {
+      background: #f7f7f7;
+      padding: 20px 20px 25px;
+      border-radius: 32px;
+      box-shadow: 0 25px 40px rgba(0,0,0,0.5);
+    }
+    canvas {
+      display: block;
+      margin: 0 auto;
+      width: 700px;
+      height: 400px;
+      background: #f0f0f0;
+      border-radius: 20px;
+      box-shadow: inset 0 -6px 0 #d0d0d0, 0 6px 12px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+    .info-panel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 15px 8px 0;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #3a3a4a;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .score-box {
+      background: #e8e8f0;
+      padding: 8px 22px;
+      border-radius: 40px;
+      letter-spacing: 1px;
+      box-shadow: inset 0 -3px 0 #b0b0b8;
+      font-size: 1.3rem;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .restart-btn {
+      background: #4a4a5a;
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding: 8px 22px;
+      border-radius: 40px;
+      box-shadow: 0 5px 0 #2a2a3a;
+      transition: all 0.05s linear;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.5px;
+    }
+    .restart-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #2a2a3a;
+    }
+    .tip {
+      font-size: 1.0rem;
+      opacity: 0.6;
+      display: flex;
+      gap: 14px;
+    }
+    .tip span {
+      background: #dddde8;
+      padding: 0 14px;
+      border-radius: 30px;
+    }
+    .loading-text {
+      font-size: 0.95rem;
+      color: #4a4a5a;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .sound-toggle {
+      background: #e8e8f0;
+      border: none;
+      font-size: 1.5rem;
+      padding: 4px 12px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: inset 0 -3px 0 #b0b0b8;
+      transition: all 0.1s;
+    }
+    .sound-toggle:active {
+      transform: scale(0.95);
+    }
+    @media (max-width: 740px) {
+      canvas {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 700 / 400;
+      }
+      .game-wrapper {
+        padding: 12px;
+        width: 98vw;
+      }
+      .info-panel {
+        font-size: 1.0rem;
+      }
+      .score-box {
+        font-size: 1.0rem;
+        padding: 6px 16px;
+      }
+      .restart-btn {
+        font-size: 1.0rem;
+        padding: 6px 16px;
+      }
+      .tip {
+        font-size: 0.85rem;
+        gap: 8px;
+      }
+      .tip span {
+        padding: 0 10px;
+      }
+      .sound-toggle {
+        font-size: 1.2rem;
+        padding: 2px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="game-container">
+  <div class="game-wrapper">
+   <canvas id="gameCanvas" width="700" height="400"></canvas>
+   <div class="info-panel">
+    <div class="score-box">得分🏆 <span id="scoreDisplay">0</span></div>
+      <div class="controls">
+        <div class="tip">
+          <span>␣＆触屏 跳跃</span>
+          <span>R＆失败后触屏 重启</span>
+        </div>
+        <button class="sound-toggle" id="soundToggle" title="切换音效">🔊</button>
+        <button class="restart-btn" id="restartButton">↻ 重启</button>
+      </div>
+    </div>
+    <div class="loading-text" id="loadingStatus">加载贴图中...</div>
+    </div>
+   </div>
+  </div>
+</div>
+<script>
+  (function() {
+    // ==================== DOM 元素 ====================
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreSpan = document.getElementById('scoreDisplay');
+    const loadingStatus = document.getElementById('loadingStatus');
+    const soundToggle = document.getElementById('soundToggle');
+    // ==================== 自定义音频文件 ====================
+    // 请将您的音频文件放在同目录下，或修改为完整路径
+    const startSound = new Audio('start.wav');        // 开始音效
+    const gameOverSound = new Audio('gameover.wav');  // 结束音效
+    // 如果音频文件加载失败，静默处理
+    startSound.load();
+    gameOverSound.load();
+    // ==================== 音效系统 ====================
+    let soundEnabled = true;
+    let audioUnlocked = false;
+    // 解锁音频（浏览器自动播放策略）
+    function unlockAudio() {
+      if (audioUnlocked) return;
+      try {
+        // 尝试播放一个静音片段来激活音频
+        const silent = new Audio();
+        silent.volume = 0;
+        silent.play().then(() => {
+          audioUnlocked = true;
+        }).catch(() => {
+          // 忽略错误
+        });
+      } catch (e) {
+        // 忽略
+      }
+    }
+    // 播放开始音效
+    function playStartSound() {
+      if (!soundEnabled) return;
+      try {
+        startSound.currentTime = 0;
+        startSound.play().catch(() => {});
+      } catch (e) {
+        // 忽略音频错误
+      }
+    }
+    // 播放结束音效
+    function playGameOverSound() {
+      if (!soundEnabled) return;
+      try {
+        gameOverSound.currentTime = 0;
+        gameOverSound.play().catch(() => {});
+      } catch (e) {
+        // 忽略音频错误
+      }
+    }
+    // ==================== 自定义贴图 ====================
+    const IMAGE_URLS = {
+      player: '/images/fu.png',
+      ground: '/images/ground.png',
+      background: '/images/bg.png',
+      cactus: '/images/pu.png',
+      pterodactyl: '/images/pu.png',
+    };
+    // ==================== 加载图片 ====================
+    const images = {};
+    let imagesLoaded = 0;
+    const totalImages = Object.keys(IMAGE_URLS).length;
+    function loadImages(callback) {
+      for (const [key, url] of Object.entries(IMAGE_URLS)) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = url;
+        img.onload = () => {
+          imagesLoaded++;
+          loadingStatus.textContent = `贴图加载中... ${imagesLoaded}/${totalImages}`;
+          if (imagesLoaded === totalImages) {
+            loadingStatus.textContent = '🎮 点击开始游戏！';
+            callback();
+          }
+        };
+        img.onerror = () => {
+          console.warn(`图片加载失败: ${key}，使用后备颜色`);
+          imagesLoaded++;
+          loadingStatus.textContent = `贴图加载中... ${imagesLoaded}/${totalImages}`;
+          if (imagesLoaded === totalImages) {
+            loadingStatus.textContent = '🎮 点击开始游戏！';
+            callback();
+          }
+        };
+        images[key] = img;
+      }
+    }
+    // ==================== 游戏常量 ====================
+    const GROUND_Y = 350;
+    const DINO_X = 70;
+    // ==================== 游戏状态 ====================
+    let gameOver = false;
+    let gamePaused = true;        // 初始为暂停
+    let score = 0;
+    let frame = 0;
+    let gameReady = false;
+    // ==================== 恐龙（玩家） ====================
+    const dino = {
+      x: DINO_X,
+      y: GROUND_Y - 50,
+      width: 42,
+      height: 50,
+      vy: 0,
+      gravity: 0.75,
+      jumpPower: -15,
+      grounded: true,
+    };
+    // ==================== 障碍物 ====================
+    let obstacles = [];
+    // ==================== 核心函数 ====================
+    // 开始游戏（从暂停状态恢复）
+    function startGame() {
+      if (!gameReady) return;
+      if (gamePaused && !gameOver) {
+        gamePaused = false;
+        unlockAudio();
+        playStartSound();
+        loadingStatus.textContent = '🎮 游戏进行中...';
+      }
+    }
+    // 重置游戏
+    function resetGame() {
+      if (!gameReady) return;
+      gameOver = false;
+      gamePaused = true;          // 重置后回到暂停
+      score = 0;
+      frame = 0;
+      obstacles = [];
+      dino.y = GROUND_Y - dino.height;
+      dino.vy = 0;
+      dino.grounded = true;
+      updateScoreDisplay();
+      loadingStatus.textContent = '🎮 点击开始游戏！';
+    }
+    // 跳跃
+    function jump() {
+      unlockAudio();
+      // 如果游戏暂停，开始游戏
+      if (gamePaused && !gameOver && gameReady) {
+        startGame();
+        return;
+      }
+      if (gameOver || !gameReady) return;
+      if (dino.grounded) {
+        dino.vy = dino.jumpPower;
+        dino.grounded = false;
+      }
+    }
+    // 更新分数显示
+    function updateScoreDisplay() {
+      scoreSpan.textContent = Math.floor(score);
+    }
+    // ==================== 生成障碍物 ====================
+    function spawnObstacle() {
+      const type = Math.random() < 0.3 ? 'pterodactyl' : 'cactus';
+      if (type === 'cactus') {
+        const heights = [32, 48, 60];
+        const h = heights[Math.floor(Math.random() * heights.length)];
+        obstacles.push({
+          type: 'cactus',
+          x: 700,
+          y: GROUND_Y - h,
+          width: 26,
+          height: h,
+        });
+      } else {
+        const flyY = GROUND_Y - 70 - Math.random() * 40;
+        obstacles.push({
+          type: 'pterodactyl',
+          x: 700,
+          y: flyY,
+          width: 46,
+          height: 32,
+          wingPhase: 0,
+        });
+      }
+    }
+    // ==================== 更新逻辑 ====================
+    function update() {
+      // 暂停或游戏结束时不更新
+      if (gamePaused || gameOver || !gameReady) return;
+      // 恐龙物理
+      dino.vy += dino.gravity;
+      dino.y += dino.vy;
+      if (dino.y >= GROUND_Y - dino.height) {
+        dino.y = GROUND_Y - dino.height;
+        dino.vy = 0;
+        dino.grounded = true;
+      } else {
+        dino.grounded = false;
+      }
+      if (dino.y < 0) {
+        dino.y = 0;
+        dino.vy = 0;
+      }
+      // 障碍物移动
+      for (let i = obstacles.length - 1; i >= 0; i--) {
+        const ob = obstacles[i];
+        ob.x -= 5.5;
+        if (ob.x + ob.width < 0) {
+          obstacles.splice(i, 1);
+          continue;
+        }
+        if (ob.type === 'pterodactyl') {
+          ob.wingPhase = (ob.wingPhase || 0) + 0.2;
+        }
+      }
+      // 生成障碍物
+      const minInterval = Math.max(30, 65 - Math.floor(score / 70));
+      if (frame % minInterval === 0 && !gameOver && Math.random() < 0.65) {
+        spawnObstacle();
+      }
+      // 碰撞检测
+      const dinoRect = {
+        x: dino.x + 5,
+        y: dino.y + 5,
+        width: dino.width - 10,
+        height: dino.height - 10,
+      };
+      for (let ob of obstacles) {
+        let obRect = {
+          x: ob.x + 4,
+          y: ob.y + 4,
+          width: ob.width - 8,
+          height: ob.height - 8,
+        };
+        if (ob.type === 'pterodactyl') {
+          obRect.x += 5;
+          obRect.width -= 10;
+          obRect.y += 5;
+          obRect.height -= 10;
+        }
+        if (dinoRect.x < obRect.x + obRect.width &&
+            dinoRect.x + dinoRect.width > obRect.x &&
+            dinoRect.y < obRect.y + obRect.height &&
+            dinoRect.y + dinoRect.height > obRect.y) {
+          gameOver = true;
+          playGameOverSound();  // 播放结束音效
+          loadingStatus.textContent = '💀 游戏结束！点击重启';
+          break;
+        }
+      }
+      if (!gameOver) {
+        score += 0.28;
+        updateScoreDisplay();
+      }
+      frame++;
+    }
+    // ==================== 绘制 ====================
+    function draw() {
+      ctx.clearRect(0, 0, 700, 400);
+      // 背景
+      if (images.background && images.background.complete && images.background.naturalWidth > 0) {
+        ctx.drawImage(images.background, 0, 0, 700, 400);
+      } else {
+        ctx.fillStyle = '#d4e8f0';
+        ctx.fillRect(0, 0, 700, 400);
+      }
+      // 地面
+      if (images.ground && images.ground.complete && images.ground.naturalWidth > 0) {
+        const gw = images.ground.width;
+        const offset = (frame * 0.55) % gw;
+        for (let x = -offset; x < 700; x += gw) {
+          ctx.drawImage(images.ground, x, GROUND_Y, gw, 50);
+        }
+      } else {
+        ctx.fillStyle = '#d8d8d8';
+        ctx.fillRect(0, GROUND_Y, 700, 50);
+        ctx.fillStyle = '#b0b0b0';
+        for (let i = 0; i < 700; i += 35) {
+          ctx.fillRect(i + (frame * 0.55) % 35, GROUND_Y + 12, 14, 4);
+        }
+      }
+      // 玩家
+      const playerImg = images.player;
+      if (playerImg && playerImg.complete && playerImg.naturalWidth > 0) {
+        ctx.drawImage(playerImg, dino.x, dino.y, dino.width, dino.height);
+      } else {
+        // 后备恐龙
+        ctx.fillStyle = '#3a6b3a';
+        ctx.beginPath();
+        ctx.roundRect(dino.x, dino.y, dino.width, dino.height, 8);
+        ctx.fill();
+        ctx.fillStyle = '#5a8f4a';
+        ctx.beginPath();
+        ctx.roundRect(dino.x + 6, dino.y + 8, 14, 24, 5);
+        ctx.fill();
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(dino.x + 28, dino.y + 12, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#222';
+        ctx.beginPath();
+        ctx.arc(dino.x + 30, dino.y + 11, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // 障碍物
+      for (let ob of obstacles) {
+        if (ob.type === 'cactus') {
+          const img = images.cactus;
+          if (img && img.complete && img.naturalWidth > 0) {
+            ctx.drawImage(img, ob.x, ob.y, ob.width, ob.height);
+          } else {
+            ctx.fillStyle = '#2d7a3a';
+            ctx.beginPath();
+            ctx.roundRect(ob.x, ob.y, ob.width, ob.height, 5);
+            ctx.fill();
+          }
+        } else {
+          const img = images.pterodactyl;
+          if (img && img.complete && img.naturalWidth > 0) {
+            ctx.drawImage(img, ob.x, ob.y, ob.width, ob.height);
+          } else {
+            ctx.fillStyle = '#8a6a4a';
+            ctx.beginPath();
+            ctx.ellipse(ob.x + 20, ob.y + 14, 20, 14, 0, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+      // 暂停遮罩
+      if (gamePaused && !gameOver && gameReady) {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.fillRect(0, 0, 700, 400);
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 44px "Courier New", monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('⏸ 暂停', 350, 150);
+        ctx.font = '22px "Courier New", monospace';
+        ctx.fillText('点击 / 空格 开始游戏', 350, 215);
+        ctx.font = '16px "Courier New", monospace';
+        ctx.fillText('按 R 或点击重启按钮重新开始', 350, 260);
+      }
+      // 游戏结束遮罩
+      if (gameOver) {
+        ctx.fillStyle = 'rgba(30, 30, 40, 0.7)';
+        ctx.fillRect(0, 0, 700, 400);
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 40px "Courier New", monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('💀 游戏结束', 350, 140);
+        ctx.font = '20px "Courier New", monospace';
+        ctx.fillText('点击 / 空格 重新开始', 350, 200);
+        ctx.font = '16px "Courier New", monospace';
+        ctx.fillText('按 R 或点击重启按钮', 350, 245);
+      }
+    }
+    // 辅助 roundRect
+    CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+      if (w < 2 * r) r = w / 2;
+      if (h < 2 * r) r = h / 2;
+      this.moveTo(x + r, y);
+      this.lineTo(x + w - r, y);
+      this.quadraticCurveTo(x + w, y, x + w, y + r);
+      this.lineTo(x + w, y + h - r);
+      this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      this.lineTo(x + r, y + h);
+      this.quadraticCurveTo(x, y + h, x, y + h - r);
+      this.lineTo(x, y + r);
+      this.quadraticCurveTo(x, y, x + r, y);
+      this.closePath();
+      return this;
+    };
+    // ==================== 游戏循环 ====================
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+    // ==================== 事件绑定 ====================
+    function handleKey(e) {
+      const key = e.key;
+      if (key === ' ' || key === 'Space') {
+        e.preventDefault();
+        unlockAudio();
+        // 如果游戏暂停，开始游戏
+        if (gamePaused && !gameOver && gameReady) {
+          startGame();
+          return;
+        } 
+        if (gameOver) {
+          resetGame();
+        } else {
+          jump();
+        }
+      }
+      if (key === 'r' || key === 'R') {
+        e.preventDefault();
+        resetGame();
+      }
+    }
+    function handleCanvasClick(e) {
+      e.preventDefault();
+      unlockAudio();
+      if (!gameReady) return;
+      // 如果游戏暂停，开始游戏
+      if (gamePaused && !gameOver) {
+        startGame();
+        return;
+      }
+      if (gameOver) {
+        resetGame();
+      } else {
+        jump();
+      }
+    }
+    // 防止页面滚动
+    window.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Space' || e.key === 'r' || e.key === 'R') {
+        e.preventDefault();
+      }
+    });
+    document.addEventListener('keydown', handleKey);
+    canvas.addEventListener('click', handleCanvasClick);
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      unlockAudio();
+      if (!gameReady) return;
+      if (gamePaused && !gameOver) {
+        startGame();
+        return;
+      }
+      if (gameOver) {
+        resetGame();
+      } else {
+        jump();
+      }
+    }, { passive: false });
+    // 重启按钮
+    document.getElementById('restartButton').addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetGame();
+    });
+    // 音效开关
+    soundToggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      soundEnabled = !soundEnabled;
+      soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+      if (soundEnabled) {
+        unlockAudio();
+      }
+    });
+    // ==================== 启动游戏 ====================
+    loadImages(() => {
+      gameReady = true;
+      resetGame();  // 默认暂停状态
+    });
+    // 开始循环
+    gameLoop();
+  })();
+</script>
+</body>
+</html>
