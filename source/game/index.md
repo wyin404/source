@@ -1,10 +1,10 @@
 ---
 title: 芙芙快跑！
 date: 2026-06-27 05:21:45
-comments: false
-aside: false
 ---
-<p align="center">⚡穷玩车，富玩表，顶富就玩芙芙快跑⚡</p>
+### <p align="center">⚡穷玩车，富玩表，顶富就玩芙芙快跑⚡</p>
+<p align="center">所见效果即为调教最佳</p>
+<p align="center">功能开发不完善敬请谅解🌹</p>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
@@ -17,12 +17,43 @@ aside: false
       box-sizing: border-box;
       user-select: none;
     }
+      /* 主内容占满 */
+  #content-inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+    /* 让页面容器居中并占满宽度 */
+  #page {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 10px !important;
+    margin: 0 !important;
+  }
+  /* 移除侧边栏和多余边距 */
+  #page .page-content {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 90% !important;
+    max-width: 900px !important;
+    padding: 0 !important;
+    margin: 10px auto !important;
+    flex: none !important;
+  }
   /* 或者使用更具体的容器 */
   #game-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh;
+    min-height: 60vh;
     padding: 20px;
   }
     .game-wrapper {
