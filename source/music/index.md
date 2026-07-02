@@ -55,7 +55,7 @@ const ap4 = new APlayer({
     audio: {
         name: '没那么简单',
         artist: '黄小琥',
-        url: "/music/music/没那么简单.mp3"
+        url: "/music/没那么简单.mp3"
     }
 });
 </script>
