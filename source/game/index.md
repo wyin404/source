@@ -5,6 +5,7 @@ date: 2026-06-27 05:21:45
 ### <p align="center">⚡穷玩车，富玩表，顶富就玩芙芙快跑⚡</p>
 <p align="center">所见效果即为调教最佳</p>
 <p align="center">功能开发不完善敬请谅解🌹</p>
+<p align="center">打开夜间模式看我下面的评论</p>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
@@ -191,7 +192,7 @@ date: 2026-06-27 05:21:45
           <span>␣＆触屏 跳跃</span>
           <span>R＆失败后触屏 重启</span>
         </div>
-        <button class="sound-toggle" id="soundToggle" title="切换音效">🔊</button>
+        <button class="sound-toggle" id="soundToggle" title="切换音效">音效🔊</button>
         <button class="restart-btn" id="restartButton">↻ 重启</button>
       </div>
     </div>
@@ -275,7 +276,7 @@ date: 2026-06-27 05:21:45
           imagesLoaded++;
           loadingStatus.textContent = `贴图加载中... ${imagesLoaded}/${totalImages}`;
           if (imagesLoaded === totalImages) {
-            loadingStatus.textContent = '🎮 点击开始游戏！';
+            loadingStatus.textContent = '⚡点击开始游戏！⚡';
             callback();
           }
         };
@@ -284,7 +285,7 @@ date: 2026-06-27 05:21:45
           imagesLoaded++;
           loadingStatus.textContent = `贴图加载中... ${imagesLoaded}/${totalImages}`;
           if (imagesLoaded === totalImages) {
-            loadingStatus.textContent = '🎮 点击开始游戏！';
+            loadingStatus.textContent = '⚡点击开始游戏！⚡';
             callback();
           }
         };
@@ -321,7 +322,7 @@ date: 2026-06-27 05:21:45
         gamePaused = false;
         unlockAudio();
         playStartSound();
-        loadingStatus.textContent = '🎮 游戏进行中...';
+        loadingStatus.textContent = '⚡游戏进行中...⚡';
       }
     }
     // 重置游戏
@@ -336,7 +337,7 @@ date: 2026-06-27 05:21:45
       dino.vy = 0;
       dino.grounded = true;
       updateScoreDisplay();
-      loadingStatus.textContent = '🎮 点击开始游戏！';
+      loadingStatus.textContent = '⚡点击开始游戏！⚡';
     }
     // 跳跃
     function jump() {
@@ -442,7 +443,7 @@ date: 2026-06-27 05:21:45
             dinoRect.y + dinoRect.height > obRect.y) {
           gameOver = true;
           playGameOverSound();  // 播放结束音效
-          loadingStatus.textContent = '💀 游戏结束！点击重启';
+          loadingStatus.textContent = '⚡游戏结束！点击重启⚡';
           break;
         }
       }
@@ -532,7 +533,7 @@ date: 2026-06-27 05:21:45
         ctx.font = 'bold 44px "Courier New", monospace';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('⏸ 暂停', 350, 150);
+        ctx.fillText('⚡点击以开始游戏⚡', 350, 150);
         ctx.font = '22px "Courier New", monospace';
         ctx.fillText('点击 / 空格 开始游戏', 350, 215);
         ctx.font = '16px "Courier New", monospace';
@@ -546,7 +547,7 @@ date: 2026-06-27 05:21:45
         ctx.font = 'bold 40px "Courier New", monospace';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('💀 游戏结束', 350, 140);
+        ctx.fillText('⚡游戏结束⚡', 350, 140);
         ctx.font = '20px "Courier New", monospace';
         ctx.fillText('点击 / 空格 重新开始', 350, 200);
         ctx.font = '16px "Courier New", monospace';
@@ -643,7 +644,7 @@ date: 2026-06-27 05:21:45
     soundToggle.addEventListener('click', function(e) {
       e.stopPropagation();
       soundEnabled = !soundEnabled;
-      soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+      soundToggle.textContent = soundEnabled ? '音效开🔊' : '音效关🔇';
       if (soundEnabled) {
         unlockAudio();
       }
