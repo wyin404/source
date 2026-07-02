@@ -310,6 +310,10 @@ aside:
       icon: fa-brands fa-qq
       text: 个人QQ🌹
       link: /qqpage
+  custom_image:
+    enable: true
+    src: /images/asidegif.gif
+    text: 事已至此发会儿呆吧   
   card_announcement:
     enable: false
     content: This is my Blog
@@ -1095,6 +1099,7 @@ inject:
     - <script src="/js/clock.js"></script>
     - <script src="/js/change.js"></script>
     - <script src="/js/loader.js"></script>
+    - <script src="/js/title.js"></script>
   
 # CDN Settings
 # Don't modify the following settings unless you know how they work
