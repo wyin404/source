@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 我的博客太隐晦了
+title: 我博客会不会太隐晦了?
 subtitle: welcome
 description: ''
 keywords:
@@ -61,8 +61,8 @@ prismjs:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   path: ''
-  per_page: 10
-  order_by: -date
+  per_page: 6
+  order_by: -default
 
 # Category & Tag
 default_category: uncategorized
@@ -115,7 +115,7 @@ wowjs:
       style: animate__fadeIn
       duration: 1.5s
       delay: 500ms
-      offset: 90
+      offset: 80
       iteration: 1
     - class: card-widget
       style: animate__fadeIn

@@ -10,6 +10,7 @@ aside: false
 ![](/images/index_img2.jpg)
 ![](/images/index_img3.jpg)
 ![](/images/background.jpg)
+![](/images/background2.jpg)
 ![](/images/live.png)
 ![](/images/loading.gif)
 ![](/images/a.jpg)
@@ -31,4 +32,11 @@ aside: false
 ![](/images/q.jpg)
 ![](/images/r.jpg)
 ![](/images/s.jpg)
+![](/images/t.jpg)
+![](/images/u.jpg)
+![](/images/v.jpg)
+![](/images/w.jpg)
+![](/images/x.jpg)
+![](/images/y.jpg)
 {% endgallery %}
+<p align=center>⚡尺度大的来自推⚡</p>
