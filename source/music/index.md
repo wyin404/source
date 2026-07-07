@@ -41,28 +41,44 @@ const ap1 = new APlayer({
 });
 </script>
 
-<!-- **日文** -->
-<!-- <div id="player2" class="aplayer-container"></div>
+**日文**
+<div id="player2" class="aplayer-container"></div>
 <script>
 const ap2 = new APlayer({
     container: document.getElementById('player2'),
-    audio: {
-        name: '潮鸣',
-        artist: '折戸伸治',
-        url: "/music/折戸伸治 - 潮鳴り (潮鸣).flac"
-    }
+    lrcType: 3,
+    audio: [
+    {
+        name: 'エンドルフィン',
+        artist: '杉恵ゆりか',
+        url: "/music/エンドルフィン.m4s",
+        lrc: "/music/エンドルフィン.lrc"
+    },
+    ]
 });
-</script> -->
+</script>
 
 **中文**
 <div id="player3" class="aplayer-container"></div>
 <script>
 const ap3 = new APlayer({
     container: document.getElementById('player3'),
-    audio: {
+    lrcType: 3,
+    audio: [ 
+    {
         name: '没那么简单',
         artist: '黄小琥',
-        url: "/music/没那么简单.mp3"
-    }
+        url: "/music/没那么简单.mp3",
+        lrc: "/music/没那么简单.lrc"
+    },
+    {
+        name: '爱你',
+        artist: '陈语芳_rh不可理喻，传这个纯因为我对原版有执念',
+        url: "/music/爱你.m4s",
+        lrc: "/music/爱你.lrc"
+    },
+    ]
 });
 </script>
+
+折腾了一个概念版在线搜索点击[HERE](/酷狗概念版)搜你爱听的

@@ -3,9 +3,8 @@ title: 芙芙快跑！
 date: 2026-06-27 05:21:45
 ---
 ### <p align="center">⚡穷玩车，富玩表，顶富就玩芙芙快跑⚡</p>
-<p align="center">所见效果即为调教最佳</p>
+<p align="center">所见效果即为能力之内最佳</p>
 <p align="center">功能开发不完善敬请谅解🌹</p>
-<p align="center">打开夜间模式看我下面的评论</p>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">

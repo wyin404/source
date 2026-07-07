@@ -21,13 +21,12 @@ menu:
   首页: / || fas fa-home
   归档: /archives/ || fas fa-archive
   标签: /tags/ || fas fa-tags
-  
+  友链: /link/ || fas fa-link
   列表||fas fa-list||hide:
     音乐: /music/ || fas fa-music
     视频: /movie/ || fas fa-video
     图库: /gallery/ || fas fa-image
     ⚡神秘游戏⚡: /game/
-  友链: /link/ || fas fa-link
 
 
 #--------------------------------------
@@ -64,7 +63,7 @@ social:
 favicon: /images/live.png
 
 avatar:
-  img: https://cn.cravatar.com/avatar/1ece79990c47852988dd6f3ab5c7fa68?s=400&r=G&d=mp&ver=1781862365
+  img: https://cn.cravatar.com/avatar/1ece79990c47852988dd6f3ab5c7fa68?s=400&r=G&d=mp&ver=1783235840
   effect: false
 
 # Disable all banner images
@@ -339,7 +338,7 @@ aside:
     expand: none
     sort_order:
   card_tags:
-    enable: true
+    enable: false
     # If set 0 will show all
     limit: 40
     color: false
@@ -564,7 +563,7 @@ comments:
   # If you set it to true, the comment count will be invalid
   lazyload: false
   # Display comment count in post's top_img
-  count: true
+  count: false
   # Display comment count in Home Page
   card_post_count: false
 
@@ -618,6 +617,11 @@ waline:
   # Use Waline pageview count as the page view count
   pageview: false
   option:
+    locale:
+      placeholder: 主人~留下些什么吧 ₍^ >ヮ<^₎ .ᐟ.ᐟ喵！
+      nick: 你的昵称：
+      mail: 你的邮箱：
+      link: 你的网址：
 
 # Utterances
 # https://utteranc.es/
@@ -1018,7 +1022,6 @@ pjax:
   enable: false
   # Exclude the specified pages from pjax, such as '/music/'
   exclude:
-    - /music/
 
 # Inject the css and script (aplayer/meting)
 aplayerInject:
@@ -1094,6 +1097,7 @@ inject:
     - <link rel="stylesheet" href="/css/clock.css">
     - <link rel="stylesheet" href="/css/glass.css">
     - <link rel="stylesheet" href="/css/loader.css">
+
   bottom:
     - <script data-pjax src="/js/home-swiper.js"></script>
     - <script src="/js/clock.js"></script>

@@ -438,131 +438,45 @@ inject:
 然后是图床和文件床？从网上找教程，建仓上传然后用~~jsdelivrCDN~~vercel调用，图片放的太散，看到哪个再顺手上传哪个吧，希望加载速度会有所提升（压力太大我老爷手机都加载不出来了😭😭😭）2026年6月19日
 
 ## 一些杂项更新
-加装hexo-hide-posts插件，hexo-blog-encrypt插件，实现了帖子的隐藏与加密。禁用了pjax功能，修复了时钟、音乐播放器加载必须需刷新页面才能显示，代价是加载速度拖慢。禁用了首页文章头图鼠标悬停放大动画，我不喜欢。还有就是不打算再用cdn了太慢，好容易才找到一个国内免费的edgeone page结果需要icp备案，这不符合我免费建站的初衷😋果断放弃，打算把文件放到博客本地文件夹。~~把loading动画改为自定义gif~~ 更新为纯css动画gif加载过程太抽象了，本次效果来自[https://b23.tv/Ibf2sDt](https://b23.tv/Ibf2sDt)，终于不是居中的小蓝条了😋😋😋现在的效果↓↓↓
-<!-- 加载效果演示 -->
+加装hexo-hide-posts插件，hexo-blog-encrypt插件，实现了帖子的隐藏与加密。禁用了pjax功能，修复了时钟、音乐播放器加载必须需刷新页面才能显示，代价是加载速度拖慢。禁用了首页文章头图鼠标悬停放大动画，我不喜欢。还有就是不打算再用cdn了太慢，好容易才找到一个国内免费的edgeone page结果需要icp备案，这不符合我免费建站的初衷😋果断放弃，打算把文件放到博客本地文件夹。~~把loading动画改为自定义gif~~ 更新为纯css动画gif加载过程太抽象了，本次效果来自[https://b23.tv/Ibf2sDt](https://b23.tv/Ibf2sDt)，终于不是居中的小蓝条了😋😋😋现在的效果↓↓↓（精简后，直接原版演示太吃性能
+<!-- 极简加载动画 -->
 <style>
-#loader-demo {
+#loader-mini {
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 200px;
   background: #111;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
+  border-radius: 8px;
+  margin: 10px 0;
   overflow: hidden;
 }
 
-#loader-demo .loader-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  cursor: default;
-  -webkit-box-reflect: below -20px linear-gradient(transparent, #0005);
-  z-index: 1;
-  white-space: nowrap;
-  font-size: 6vw;
-}
-
-#loader-demo .loader-text span {
-  position: relative;
-  display: inline-flex;
-  color: transparent;
+#loader-mini span {
+  display: inline-block;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 900;
   text-transform: uppercase;
-  -webkit-text-stroke: 1px #fff9;
-  font-weight: 800;
-  animation: waveAnimate 2s ease-in-out infinite;
-  animation-delay: calc(0.15s * var(--i));
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.5);
+  font-family: Arial, sans-serif;
+  animation: pop 1s ease-in-out infinite;
+  animation-delay: calc(0.08s * var(--i));
+  will-change: transform;
 }
 
-#loader-demo .progress-wrapper {
-  position: absolute;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 50%;
-  max-width: 500px;
-}
-
-#loader-demo .progress-container {
-  position: relative;
-  width: 60%;
-}
-
-#loader-demo .progress {
-  height: 40px;
-  width: 100%;
-  border-radius: 20px;
-  box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.15);
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  border: 4px solid rgba(255, 255, 255, 0.3);
-}
-
-#loader-demo .progress .progress-fill {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  top: 0;
-  width: 75%;
-  background: linear-gradient(to right, #7abccf 0%, #00BCD4 44%, #2196F3 100%);
-  border-radius: 20px;
-  animation: loading 6s linear infinite;
-  filter: hue-rotate(90deg);
-  transition: width 0.3s ease;
-}
-
-#loader-demo .progress-text {
-  margin-top: 14px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #ffffff;
-  font-family: sans-serif;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-
-@keyframes waveAnimate {
-  0% { transform: translateY(0px); color: transparent; text-shadow: none; }
-  20% { transform: translateY(-60px); color: #fff; text-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 50px #fff; }
-  40%, 100% { transform: translateY(0px); color: transparent; text-shadow: none; }
-}
-
-@keyframes loading {
-  70% { filter: hue-rotate(0deg); }
-  100% { width: 100%; filter: hue-rotate(-90deg); }
+@keyframes pop {
+  0%, 100% { transform: translateY(0); color: transparent; }
+  30% { transform: translateY(-25px); color: #fff; }
+  60% { transform: translateY(0); color: transparent; }
 }
 </style>
 
-<div id="loader-demo">
-  <div class="loader-text">
-    <span style="--i:1;">L</span>
-    <span style="--i:2;">o</span>
-    <span style="--i:3;">a</span>
-    <span style="--i:4;">d</span>
-    <span style="--i:5;">i</span>
-    <span style="--i:6;">n</span>
-    <span style="--i:7;">g</span>
-    <span style="--i:8;">.</span>
-    <span style="--i:9;">.</span>
-    <span style="--i:10;">.</span>
-  </div>
-  <div class="progress-wrapper">
-    <div class="progress-container">
-      <div class="progress">
-        <div class="progress-fill" style="width:75%;"></div>
-      </div>
-    </div>
-    <div class="progress-text">75%</div>
-  </div>
+<div id="loader-mini">
+  <span style="--i:1;">演</span>
+  <span style="--i:2;">示</span>
 </div>
 
 ~~2026年6月21日~~update2026年7月4日
@@ -597,7 +511,10 @@ post_asset_folder: true
 ```
 即可调用。什么你说我这次怎么把指令都写出来了？当然是为了水字数（doge。加了一个发呆用的侧边栏卡片
 ![](/images/asidegif.gif)
-，这里我才意识到加组件是要顺应主题的代码放置偏好的，之前一昧堆屎山费力不讨好，时钟就是很好的反例，别看效果还行，那都是一点一点改出来的，其实放在主题搭建好的代码框架内就可以只写卡片内容即可享用到原生的外表及动效了。吃一堑吃一堑再吃一堑😋。灵感乍现啊，现在你让我的网页处于后台会觉醒病娇人格，恢复焦点又会变回傻逼人格👍修复了一些其他已知问题并吃了一份照烧饭🤷‍♂️2026年7月3日
+，这里我才意识到加组件是要顺应主题的代码放置偏好的，之前一昧堆屎山费力不讨好，时钟就是很好的反例，别看效果还行，那都是一点一点改出来的，其实放在主题搭建好的代码框架内就可以只写卡片内容即可享用到原生的外表及动效了。吃一堑吃一堑再吃一堑😋。灵感乍现啊，现在你让我的网页处于后台会有挽留语，恢复焦点又会变回标题👍修复了一些其他已知问题并吃了一份照烧饭🤷‍♂️2026年7月3日
 
 ## 一些杂项更新
 把首页轮播图放满了，都是好看的，网站背景白天黑夜也换成不同的了。箴言改了个渐变色主要是因为白天的壁纸太白不改深看不清。修复了一些其他已知问题（懒得做饭没钱点外卖）并吃了份水泡饭😧2026年7月4日
+
+## 重大更新
+详细说明发空间了，点"音乐"页面最下面的链接进入一个简易的歌曲搜索引擎，调用的酷狗概念版api，改这个页面真的特别不容易前后开了vercel和cloudflare两家服务器才勉强搭建好后端，希望你能喜欢。还有一些小改动，网页标题改为特定时段显示特定问候语还有就是₍^ >ヮ<^₎ .ᐟ.ᐟ这个好可爱！另外还加了个彩蛋应该没人能找到、、修复了一些其他的已知问题并吃了份塔斯汀😤2026年7月6日
