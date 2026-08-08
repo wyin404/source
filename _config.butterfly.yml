@@ -176,6 +176,7 @@ subtitle:
   sub:
     - '来都来了随便点点发现bug或有想法都可以来找我反馈🌹'
     - '【友爱，失于分别。恋爱，失于变节。而父母之爱，自你的第一声啼哭而起，却一往无终，永不遗失】' 
+    - '疼，但我不说，没人知道，没人察觉，我就是不疼。'
     - '伊雷娜是屑，可爱，年轻而最伟大的魔女'
     - '香菜很好吃，可小时候却很讨厌'
     - '芙宁娜是，蓝白发，乐观，坚强的'
@@ -283,7 +284,7 @@ footer:
   copyright:
     enable: true
     version: false
-  custom_text:
+  custom_text: '<span id="realtime_duration"></span>'
 
 # --------------------------------------
 # Aside Settings
@@ -1097,6 +1098,16 @@ inject:
     - <link rel="stylesheet" href="/css/clock.css">
     - <link rel="stylesheet" href="/css/glass.css">
     - <link rel="stylesheet" href="/css/loader.css">
+    - |
+      <style>
+        /* 隐藏 recent-posts 容器的所有视觉轮廓 */
+        .recent-posts {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          backdrop-filter: none !important;
+        }
+      </style>
 
   bottom:
     - <script data-pjax src="/js/home-swiper.js"></script>
@@ -1104,6 +1115,9 @@ inject:
     - <script src="/js/change.js"></script>
     - <script src="/js/loader.js"></script>
     - <script src="/js/title.js"></script>
+    - <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.7/dayjs.min.js"></script>
+    - <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.7/plugin/duration.min.js"></script>
+    - <script src="/js/realtime.js"></script>
   
 # CDN Settings
 # Don't modify the following settings unless you know how they work

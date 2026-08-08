@@ -13,6 +13,9 @@
 - class_name: 网站
   class_desc: 值得推荐的网站
   link_list:
+    - name: 本站附属下载站
+      link: https://dl.wyin5100.top/
+      descr: 本站附属下载站
     - name: Bilibili
       link: https://www.bilibili.com/
       avatar: //www.bilibili.com/favicon.ico
